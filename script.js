@@ -15,7 +15,7 @@ function addWord() {
     const fragment = new DocumentFragment();
 
     const randomWord = getWord();
-    let letters = randomWord.split("");
+    const letters = randomWord.split("");
     letters.forEach((item) => {
         const letterContainer = document.createElement("span");
         letterContainer.textContent = item;
@@ -43,7 +43,7 @@ document.addEventListener("keydown", (event) => {
         isTimer = true;
     };
 
-    let wordLetters = Array.from(document.querySelectorAll(".word span"));
+    const wordLetters = Array.from(document.querySelectorAll(".word span"));
     if (event.key === word[i]) {
         wordLetters[i].classList.remove("w");
         wordLetters[i].classList.add("c");
@@ -61,17 +61,23 @@ document.addEventListener("keydown", (event) => {
         } else {
             wrong++;
             wrongCount.textContent = wrong;
-        }
-    };
+        };
 
-    if (i >= wordLetters.length) {
-        i = 0;
-        mistakes = 0;
-        wordMistakes.textContent = mistakes;
-        wordContainer.innerHTML = "";
-        word = addWord();
+        setTimeout(nextWord, 0);
     };
+});
 
+function nextWord() {
+    i = 0;
+    mistakes = 0;
+    wordMistakes.textContent = mistakes;
+    wordContainer.innerHTML = "";
+    word = addWord();
+
+    endGame();
+};
+
+function endGame() {
     if (correct === 5) {
         alert(`Ура, победа! твое время ${timer.textContent}`);
         reset();
@@ -79,7 +85,7 @@ document.addEventListener("keydown", (event) => {
         alert('Ты проиграл :(');
         reset();
     }
-});
+};
 
 function reset() {
     wordContainer.innerHTML = "";
